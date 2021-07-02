@@ -2,7 +2,7 @@
 
 ## Download project
 ```
-git clone https://github.com/OmdaMukhtar/fullhunt-vue.git
+git clone https://github.com/OmdaMukhtar/academic-vue.git
 ```
 ## Go to path of project 
 ```
