@@ -89,7 +89,8 @@ export default {
             "getClassList"
         ]),
         ...mapActions([
-            'deleteClass'
+            'deleteClass',
+            'getRoomsStudent'
         ]),
     },
 
@@ -111,7 +112,7 @@ export default {
         },
 
         deleteClassD(id){
-            console.log("id = ", id);
+            // console.log("id = ", id);
             this.$confirm({
                 title: 'Are you sure?',
                 message: 'Are you sure you want to delete?',
@@ -128,6 +129,8 @@ export default {
                                 title: 'Delete Class',
                                 message: resp.data.message
                             });
+
+                            this.getRoomsStudent();
                         });
                     }
                 }
