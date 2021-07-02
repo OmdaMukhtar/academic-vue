@@ -30,11 +30,14 @@
                          <ValidationObserver>
                                 <ValidationProvider name="status" :rules="{ required: true }" mode="lazy">
                                     <div slot-scope="{ errors }">
-                                        <label>
-                                            <h4>Status</h4>
-                                            <input class="input-text" type="text" name="status" v-model="status">
+                                        <h4>Status</h4>
+                                        <div class="col-lg-4">
+                                            <label class="switch">
+                                                <input type="checkbox" v-model="status">
+                                                <span class="slider round"></span>
+                                            </label>
                                             <p class="text-danger">{{ errors[0] }}</p>
-                                        </label>
+                                        </div>
                                     </div>
                                 </ValidationProvider>
                          </ValidationObserver>
@@ -85,10 +88,9 @@ export default {
     created(){
         this.id = router.history.current.params.id;
         let myObject = this.getClassList().filter(class_model => class_model.id == this.id)[0];
-        console.log(myObject);
         this.name = myObject.name;
         this.code = myObject.code;
-        this.status = myObject.status;
+        this.status = myObject.status == 'open'? true : false;
         this.description = myObject.description;
     },
      methods: {
@@ -104,7 +106,7 @@ export default {
                     id: this.id, 
                     code: this.code, 
                     name: this.name, 
-                    status: 1, 
+                    status: this.status, 
                     description: this.description, 
                 }).then((response)=>{
                     this.flashMessage.show({

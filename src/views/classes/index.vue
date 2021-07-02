@@ -21,6 +21,8 @@
                     :container="$refs.vldParent"
                     color="#1a3357">
                 </loading>
+            
+                <vue-confirm-dialog></vue-confirm-dialog>
 
                 <div v-show="!isLoading">
                     <button class="btn btn-success" @click="createClass">Create</button>
@@ -52,7 +54,7 @@
                                 </td>
                                 <td class="text-center">
                                     <button class="btn btn-warning btn-sm mr-1" @click="editClass(room.id)">Edit</button>
-                                    <button class="btn btn-danger btn-sm" @click="deleteClass(romm.id)">Delete</button>
+                                    <button class="btn btn-danger btn-sm" @click="deleteClassD(room.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -65,7 +67,7 @@
 
 <script>
 
-import { mapGetters } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import router from '@/router/index';
 
 export default {
@@ -86,6 +88,9 @@ export default {
         ...mapGetters([
             "getClassList"
         ]),
+        ...mapActions([
+            'deleteClass'
+        ]),
     },
 
     methods: {
@@ -103,13 +108,31 @@ export default {
                 name:"class.edit", 
                 params: {id: id}
             });
+        },
+
+        deleteClassD(id){
+            console.log("id = ", id);
+            this.$confirm({
+                title: 'Are you sure?',
+                message: 'Are you sure you want to delete?',
+                button: {
+                    yes: 'Yes',
+                    no: 'Cancel'
+                },
+                callback: confirm => {
+                    
+                    if(confirm){
+                        this.$store.dispatch('deleteClass', id).then((resp)=>{
+                            this.flashMessage.show({
+                                status: resp.data.status? 'success': 'error',
+                                title: 'Delete Class',
+                                message: resp.data.message
+                            });
+                        });
+                    }
+                }
+            })
         }
-        // showStudentClass(id){
-        //     router.push({
-        //         name:"class.student.show", 
-        //         params: {id: id}
-        //     });
-        // }
     }
 }
 </script>

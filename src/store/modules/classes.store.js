@@ -1,4 +1,4 @@
-import {classList, storeClass, updateClass} from '@/services/classes.service.js';
+import {classList, storeClass, updateClass, deleteClass} from '@/services/classes.service.js';
 
 export default {
     state: {
@@ -21,14 +21,11 @@ export default {
         async getRoomsStudent({commit}){
             try {
                 return await classList().then( res => {
-                    console.log("store = ", res.data.data);
                     commit('FETCH_CLASSES', res.data.data);
                     return res;
                 }).catch(error => {
                     console.error(error);
                 })
-                // console.log("from store=", response);
-                // return response;
             } catch (error) {
                 console.error(error);
             }
@@ -47,6 +44,17 @@ export default {
             try {
                 commit;
                 return await updateClass(params.id, params);
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async deleteClass({commit}, id){
+            try {
+                commit;
+                return await deleteClass(id).then(res => {
+                    return res;
+                });
             } catch (error) {
                 console.error(error);
             }

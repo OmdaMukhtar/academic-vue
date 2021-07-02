@@ -16,7 +16,7 @@
                 </nav>
             </div>
             <div class="row">
-                <change-password></change-password>
+                <class-create></class-create>
             </div>
         </div>
     </div>
@@ -24,11 +24,11 @@
 
 <script>
 
-import ChangePassword from '@/components/classes/create-class';
+import ClassCreate from '@/components/classes/create-class';
 
 export default {
     components: {
-        ChangePassword
+        ClassCreate
     },
 
     methods: {

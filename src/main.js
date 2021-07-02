@@ -16,8 +16,10 @@ Vue.component("loading", Loading);
 
 Vue.use(plugin)
 
-import vPikaday from 'vue-pikaday'
-Vue.use(vPikaday)
+import VueConfirmDialog from 'vue-confirm-dialog'
+
+Vue.use(VueConfirmDialog)
+Vue.component('vue-confirm-dialog', VueConfirmDialog.default)
 
 import VModal from 'vue-js-modal'
 
