@@ -75,6 +75,19 @@ const routes = [
             }
     },
     {
+        path: '/classes/:id/students',
+        name: 'class.student.show',
+        props: true,
+        component: () =>
+            import ( /* webpackChunkName: "asset" */ '@/views/classes/show-student-class.vue'),
+            meta: {
+                middleware: [
+                    auth
+                ],
+                title: 'Classes | details'
+            }
+    },
+    {
         path: '/students',
         name: 'student',
         component: () =>

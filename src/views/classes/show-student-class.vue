@@ -7,7 +7,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Classes</li>
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <router-link to="/classes" >Class</router-link>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Students</li>
                     </ol>
                 </nav>
             </div>
@@ -23,36 +26,28 @@
                 </loading>
 
                 <div v-show="!isLoading">
-                    <button class="btn btn-success" @click="createClass">Create</button>
+                    <button class="btn btn-success" @click="createStudent">Create</button>
                     <table class="table">
                         <thead>
                             <tr>
                                 <th>Id</th>
-                                <th>Code</th>
-                                <th>Name</th>
-                                <th>Status</th>
-                                <th>Description</th>
-                                <th>Max Student</th>
-                                <th>Students</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Class Name</th>
+                                <th>Birth Date</th>
                                 <th class="text-center">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="(room, i) in getClassList" :key="i">
+                            <tr v-for="(student, i) in getStudentList" :key="i">
                                 <td>{{i+1}}</td>
-                                <td>{{room.code}}</td>
-                                <td>{{room.name}}</td>
-                                <td>{{room.status}}</td>
-                                <td>{{room.description}}</td>
-                                <td>{{room.max_students}}</td>
-                                <td>
-                                    <!-- <button class="btn btn-default btn-sm mr-1">  -->
-                                        <router-link :to="'/classes/'+room.id+'/students'" >{{room.students.length}}</router-link>
-                                    <!-- </button> -->
-                                </td>
+                                <td>{{student.first_name}}</td>
+                                <td>{{student.last_name}}</td>
+                                <td>{{student.class.name}}</td>
+                                <td>{{student.date_of_birth}}</td>
                                 <td class="text-center">
-                                    <button class="btn btn-warning btn-sm mr-1" @click="editClass(room.id)">Edit</button>
-                                    <button class="btn btn-danger btn-sm" @click="deleteClass(romm.id)">Delete</button>
+                                    <button class="btn btn-warning btn-sm mr-1" @click="editStudent(student.id)">Edit</button>
+                                    <button class="btn btn-danger btn-sm" @click="deleteClass(student.id)">Delete</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -71,20 +66,22 @@ import router from '@/router/index';
 export default {
     data(){
         return {
+            id: ``,
             isLoading: false
         }
     },
     async created(){
+        this.id = router.history.current.params.id;
         this.isLoading = true;
         var self = this;
-        await self.$store.dispatch('getRoomsStudent').then(()=>{
+        await self.$store.dispatch('fetchStudentOfClass', this.id).then(()=>{
             self.isLoading = false;
         });
     },
     
     computed: {
         ...mapGetters([
-            "getClassList"
+            "getStudentList"
         ]),
     },
 
@@ -94,22 +91,16 @@ export default {
             console.log("is cancel loading");
         },
 
-        createClass(){
-            router.push('/classes/create');
+        createStudent(){
+            router.push('/students/create');
         },
 
-        editClass(id){
+        editStudent(id){
             router.push({
-                name:"class.edit", 
+                name:"student.edit", 
                 params: {id: id}
             });
         }
-        // showStudentClass(id){
-        //     router.push({
-        //         name:"class.student.show", 
-        //         params: {id: id}
-        //     });
-        // }
     }
 }
 </script>

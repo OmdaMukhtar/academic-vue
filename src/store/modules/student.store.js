@@ -1,4 +1,4 @@
-import {studentList, storeStudent, updateStudent} from '@/services/student.service.js';
+import {studentList, storeStudent, updateStudent, studentClassList} from '@/services/student.service.js';
 
 export default {
     state: {
@@ -28,6 +28,20 @@ export default {
                     console.error(error);
                 })
                 return response;
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        async fetchStudentOfClass({commit}, class_id){
+            
+            try {
+                return await studentClassList(class_id).then( res => {
+                    commit('FETCH_STUDENT', res.data.data);
+                    return res;
+                }).catch(error => {
+                    console.error(error);
+                })
             } catch (error) {
                 console.error(error);
             }
